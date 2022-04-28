@@ -9,7 +9,6 @@ from sklearn.metrics import accuracy_score, classification_report
 from tensorflow.keras.preprocessing.text import Tokenizer
 from torch.nn import CrossEntropyLoss
 from torch.nn.functional import log_softmax
-from torch.nn.init import xavier_uniform_
 from torch.optim import Adam
 
 
