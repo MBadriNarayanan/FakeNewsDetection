@@ -113,8 +113,8 @@ def preprocess_dataframe(
     return_tensors,
     max_tokens,
     truncation_flag,
-    max_length,
-    min_length,
+    content_max_length,
+    content_min_length,
     length_penalty,
     num_beams,
     early_stopping_flag,
@@ -137,8 +137,8 @@ def preprocess_dataframe(
             return_tensors=return_tensors,
             max_tokens=max_tokens,
             truncation_flag=truncation_flag,
-            max_length=max_length,
-            min_length=min_length,
+            max_length=content_max_length,
+            min_length=content_min_length,
             length_penalty=length_penalty,
             num_beams=num_beams,
             early_stopping_flag=early_stopping_flag,
@@ -218,8 +218,8 @@ def main():
     return_tensors = config["summarization"]["returnTensors"]
     max_tokens = config["summarization"]["maxTokens"]
     truncation_flag = config["summarization"]["truncationFlag"]
-    max_length = config["summarization"]["maxLength"]
-    min_length = config["summarization"]["minLength"]
+    content_max_length = config["summarization"]["contentMaxLength"]
+    content_min_length = config["summarization"]["contentMinLength"]
     length_penalty = config["summarization"]["lengthPenalty"]
     num_beams = config["summarization"]["numberOfBeams"]
     early_stopping_flag = config["summarization"]["earlystoppingFlag"]
@@ -244,8 +244,8 @@ def main():
         return_tensors=return_tensors,
         max_tokens=max_tokens,
         truncation_flag=truncation_flag,
-        max_length=max_length,
-        min_length=min_length,
+        content_max_length=content_max_length,
+        content_min_length=content_min_length,
         length_penalty=length_penalty,
         num_beams=num_beams,
         early_stopping_flag=early_stopping_flag,
