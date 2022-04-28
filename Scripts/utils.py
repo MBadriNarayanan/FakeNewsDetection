@@ -204,11 +204,6 @@ def train_model(
                     epoch, train_loss, train_accuracy, val_loss, val_accuracy
                 )
             )
-            print(
-                "Epoch: {}, Train Loss: {}, Train Accuracy: {}, Val Loss: {}, Val Accuracy: {}\n".format(
-                    epoch, train_loss, train_accuracy, val_loss, val_accuracy
-                )
-            )
         ckpt_path = "{}/Epoch_{}.pt".format(checkpoint_dir, str(epoch))
         torch.save(
             {
