@@ -1,0 +1,36 @@
+{
+    "csv":{
+        "testPath": "Test dataframe path -> string"
+    },
+    "dataset":{
+        "titleDictPath": "Title word dict path -> string",
+        "titleTokenizerPath": "Title tokenizer path -> string",
+        "contentDictPath": "Content word dict path -> string",
+        "contentTokenizerPath": "Content tokenizer path -> string",
+        "oovToken": "OOV token for the data -> string",
+        "paddingToken": "Padding token for the data -> string",
+        "paddingMode": "Mode of padding (pre or post) -> string",
+        "embeddingDimension": "Embedding dimension of the fasttext vectors -> int",
+        "shuffleFlag": "Shuffle flag for the dataset loader -> bool",
+        "numWorkers": "Number of workers for the dataloader -> int"
+
+    },
+    "model":{
+        "encoderFeedForwardUnits": "Feed forward units in encoder -> int",
+        "encoderLayers": "Number of encoder layers -> int",
+        "encoderHeads": "Number of encoder heads -> int",
+        "dropoutValue": "Dropout value for the model -> float",
+        "activationFunction": "Activation function for the model -> string",
+        "titleSequenceSize": "Max sequence length for title -> int",
+        "contentSequenceSize": "Max sequence length for content -> int",
+        "hiddenUnits1" : "First hidden unit in the decoder layer -> int",
+        "hiddenUnits2" : "Second hidden unit in the decoder layer -> int",
+        "hiddenUnits3" : "Third hidden unit in the decoder layer -> int",
+        "informationVectorDimension" : " Information vector dimension -> int"
+
+    },
+    "evaluate":{
+        "checkpointPath": "Checkpoint path for evaluating the test set -> string",
+        "reportPath": "Metrics path to save the model metrics -> string"
+    }
+}
