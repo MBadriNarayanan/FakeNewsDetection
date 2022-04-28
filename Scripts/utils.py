@@ -130,7 +130,7 @@ def train_model(
     checkpoint_dir,
 ):
     for epoch in tqdm(range(start_epoch, end_epoch + 1)):
-        train_loss = []
+        train_loss = 0.0
         train_accuracy = []
         model.train()
 
@@ -153,9 +153,9 @@ def train_model(
             y_pred = y_pred.detach().cpu().tolist()
             target = target.detach().cpu().tolist()
 
+            train_loss += batch_loss
             batch_accuracy = accuracy_score(target, y_pred)
             train_accuracy.append(batch_accuracy)
-            train_loss.append(batch_loss)
 
             torch.cuda.empty_cache()
 
@@ -163,7 +163,6 @@ def train_model(
             del y_hat, y_pred
             del batch_loss, batch_accuracy
 
-        train_loss = sum(train_loss) / len(train_loss)
         train_loss = round(train_loss, 3)
         train_accuracy = sum(train_accuracy) / len(train_accuracy)
         train_accuracy = round(train_accuracy, 3)
@@ -195,13 +194,17 @@ def train_model(
             del title, content, target
             del y_hat, y_pred
 
-        val_loss = val_loss / len(val_gen)
         val_loss = round(val_loss, 3)
         val_accuracy = accuracy_score(ground_truth, prediction)
         val_accuracy = round(val_accuracy, 3)
 
         with open(logs_path, "at") as logs_file:
             logs_file.write(
+                "Epoch: {}, Train Loss: {}, Train Accuracy: {}, Val Loss: {}, Val Accuracy: {}\n".format(
+                    epoch, train_loss, train_accuracy, val_loss, val_accuracy
+                )
+            )
+            print(
                 "Epoch: {}, Train Loss: {}, Train Accuracy: {}, Val Loss: {}, Val Accuracy: {}\n".format(
                     epoch, train_loss, train_accuracy, val_loss, val_accuracy
                 )
