@@ -1,0 +1,11 @@
+{
+    "utils":{
+        "jsonDirectory": "Directory containing the JSON files -> string",
+        "numberofJobs": "Number of jobs to create the dataframe -> int"
+    },
+    "csv":{
+        "csvDirectory": "Directory to save individual dataframes -> string",
+        "labelPath": "Label CSV Path -> string",
+        "dataframePath": "Path to save merged dataframe -> string"
+    }
+}
