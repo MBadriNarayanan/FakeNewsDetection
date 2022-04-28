@@ -1,0 +1,24 @@
+{
+    "csv":{
+        "csvPath": "Path of the dataframe -> string",
+        "sampleSize": "Percentage of dataframe to be sampled -> float",
+        "preprocessedCSVPath": "Path to save preprocessed dataframe -> string",
+        "valSize": "Validation dataframe Size -> float",
+        "testSize": "Test dataframe Size -> float",
+        "randomState": "Random state to replicate results-> int",
+        "preprocessedTrainPath": "Path to save the preprocessed train dataframe -> string",
+        "preprocessedValPath": "Path to save preprocessed val dataframe -> string",
+        "preprocessedTestPath": "Path to save preprocessed test dataframe -> string"
+    },
+    "summarization":{
+        "modelName": "Hugging face model name for summarization -> string",
+        "returnTensors": "Return value filetype -> string",
+        "maxTokens": "Maximum tokens as per hugging face model -> int",
+        "truncationFlag": "Boolean value for truncation -> bool",
+        "maxLength": "Max length of summarized text -> int",
+        "minLength": "Min length of summarized text -> int",
+        "lengthPenalty": "Length penalty for the text -> float",
+        "numberOfBeams": "Beam width for summarization -> int",
+        "earlystoppingFlag": "Boolean value for early stopping -> bool"
+    }
+}
