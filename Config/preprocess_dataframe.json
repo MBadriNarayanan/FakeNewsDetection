@@ -15,8 +15,8 @@
         "returnTensors": "Return value filetype -> string",
         "maxTokens": "Maximum tokens as per hugging face model -> int",
         "truncationFlag": "Boolean value for truncation -> bool",
-        "contentMaxLength": "Max length of summarized content -> int ",
-        "contentMinLength": "Min length of summarized content -> int ",
+        "contentMaxLength": "Max length of summarized content -> int",
+        "contentMinLength": "Min length of summarized content -> int",
         "lengthPenalty": "Length penalty for the text -> float",
         "numberOfBeams": "Beam width for summarization -> int",
         "earlystoppingFlag": "Boolean value for early stopping -> bool"
