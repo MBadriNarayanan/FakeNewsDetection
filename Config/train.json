@@ -1,0 +1,44 @@
+{
+    "csv":{
+        "trainPath": "Train dataframe path -> string",
+        "valPath": "Val dataframe path -> string"
+    },
+    "dataset":{
+        "titleDictPath": "Title word dict path -> string",
+        "titleTokenizerPath": "Title tokenizer path -> string",
+        "contentDictPath": "Content word dict path -> string",
+        "contentTokenizerPath": "Content tokenizer path -> string",
+        "oovToken": "OOV token for the data -> string",
+        "paddingToken": "Padding token for the data -> string",
+        "maxLength": "Maximum sequence length -> int",
+        "paddingMode": "Mode of padding (pre or post) -> string",
+        "embeddingDimension": "Embedding dimension of the fasttext vectors -> int",
+        "batchSize": "Training batch size -> int",
+        "shuffleFlag": "Shuffle flag for the dataset loader -> bool",
+        "numWorkers": "Number of workers for the dataloader -> int"
+
+    },
+    "model":{
+        "encoderFeedForwardUnits": "Feed forward units in encoder -> int",
+        "encoderLayers": "Number of encoder layers -> int",
+        "encoderHeads": "Number of encoder heads -> int",
+        "dropoutValue": "Dropout value for the model -> float",
+        "activationFunction": "Activation funcion for the model -> string",
+        "titleSequenceSize": "Max sequence length for title -> int",
+        "contentSequenceSize": "Max sequence length for content -> int",
+        "hiddenUnits1" : "First hidden unit in the decoder layer -> int",
+        "hiddenUnits2" : "Second hidden unit in the decoder layer -> int",
+        "hiddenUnits3" : "Third hidden unit in the decoder layer -> int",
+        "informationVectorDimension" : " Information vector dimension -> int"
+
+    },
+    "train":{
+        "continueFlag": "Flag for continuing training -> bool",
+        "startEpoch": "Starting epoch for model training -> int",
+        "endEpoch": "Ending epoch for model training -> int",
+        "learningRate": "Learning rate for model training -> float",
+        "checkpointDir": "Directory to save checkpoints -> string",
+        "checkpointToBeContinued" : "Checkpoint to be continued if continue flag is given as True -> string",
+        "logsPath": "Logs path to save the training logs -> string"
+    }
+}
