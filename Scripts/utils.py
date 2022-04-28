@@ -135,6 +135,7 @@ def train_model(
         model.train()
 
         for _, gen_values in enumerate(train_gen):
+
             title = gen_values[0].to(device)
             content = gen_values[1].to(device)
             target = gen_values[2].to(device)
@@ -173,6 +174,7 @@ def train_model(
         model.eval()
 
         for _, gen_values in enumerate(val_gen):
+
             title = gen_values[0].to(device)
             content = gen_values[1].to(device)
             target = gen_values[2].to(device)
@@ -231,6 +233,7 @@ def evaluate_model(
     prediction = []
 
     for _, gen_values in tqdm(enumerate(test_gen)):
+
         title = gen_values[0].to(device)
         content = gen_values[1].to(device)
         target = gen_values[2].to(device)
