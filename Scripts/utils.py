@@ -110,7 +110,7 @@ def get_embedding_matrix(
         print("Loaded title and content embedding matrices from memory!")
 
     except:
-        
+
         embed_index = dict()
         vector_file = open(vector_path, encoding="utf8")
         for line in vector_file:
@@ -153,12 +153,14 @@ def prepare_model_for_training(
     optimizer = Adam(model.parameters(), lr=learning_rate)
 
     if continue_flag:
+
         print("Model loaded for further training!")
         checkpoint = torch.load(continue_checkpoint_path)
         model.load_state_dict(checkpoint["model_state_dict"])
         optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
     else:
-        print("Model is being used for training")
+        
+        print("Prepared model for training!")
         for p in model.parameters():
             if p.dim() > 1:
                 xavier_uniform_(p)
