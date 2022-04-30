@@ -30,6 +30,7 @@
         "vectorPath": "Pretrained vector text path -> string",
         "titleEmbeddingMatrixPath": "Embedding matrix path for title-> string",
         "contentEmbeddingMatrixPath": "Embedding matrix path for content-> string",
+        "convOutputUnits": "Output channel size of the conv layer in decoder -> int",
         "hiddenUnits1" : "First hidden unit in the decoder layer -> int",
         "hiddenUnits2" : "Second hidden unit in the decoder layer -> int",
         "hiddenUnits3" : "Third hidden unit in the decoder layer -> int",
