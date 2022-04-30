@@ -51,8 +51,9 @@ def main():
     title_sequence_size = config["model"]["titleSequenceSize"]
     content_sequence_size = config["model"]["contentSequenceSize"]
     embedding_flag = config["model"]["embeddingFlag"]
-    title_embedding_matrix = config["model"]["titleEmbeddingMatrixPath"]
-    content_embedding_matrix = config["model"]["contentEmbeddingMatrixPath"]
+    vector_path = config["model"]["vectorPath"]
+    title_embedding_matrix_path = config["model"]["titleEmbeddingMatrixPath"]
+    content_embedding_matrix_path = config["model"]["contentEmbeddingMatrixPath"]
     hidden_units_1 = config["model"]["hiddenUnits1"]
     hidden_units_2 = config["model"]["hiddenUnits2"]
     hidden_units_3 = config["model"]["hiddenUnits3"]
@@ -83,9 +84,6 @@ def main():
     title_tokenizer = data_dict["title_tokenizer"]
     content_word_dict = data_dict["content_word_dict"]
     content_tokenizer = data_dict["content_tokenizer"]
-
-    title_vocab_size = len(title_word_dict)
-    content_vocab_size = len(content_word_dict)
 
     train_dataset = FakeNewsDataset(
         dataframe=train_df,
@@ -123,26 +121,63 @@ def main():
     }
     val_gen = DataLoader(val_dataset, **params)
 
-    model = FakeNewsTransformer(
-        title_vocab_size=title_vocab_size,
-        content_vocab_size=content_vocab_size,
-        encoder_dim=encoder_dim,
-        encoder_ffunits=encoder_ffunits,
-        encoder_layers=encoder_layers,
-        encoder_heads=encoder_heads,
-        dropout=dropout,
-        activation=activation,
-        title_sequence_size=title_sequence_size,
-        content_sequence_size=content_sequence_size,
-        embedding_flag=embedding_flag,
-        title_embedding_matrix=title_embedding_matrix,
-        content_embedding_matrix=content_embedding_matrix,
-        hidden_units_1=hidden_units_1,
-        hidden_units_2=hidden_units_2,
-        hidden_units_3=hidden_units_3,
-        information_vector_dimension=information_vector_dimension,
-        device=device,
-    ).to(device)
+    if embedding_flag:
+
+        title_embedding_matrix, content_embedding_matrix = get_embedding_matrix(
+            title_embedding_matrix_path=title_embedding_matrix_path,
+            content_embedding_matrix_path=content_embedding_matrix_path,
+            vector_path=vector_path,
+            title_word_dict=title_word_dict,
+            content_word_dict=content_word_dict,
+            embed_dim=embed_dim,
+        )
+        print("Using pretrained glove embeddings!")
+        model = FakeNewsTransformer(
+            title_vocab_size=None,
+            content_vocab_size=None,
+            encoder_dim=encoder_dim,
+            encoder_ffunits=encoder_ffunits,
+            encoder_layers=encoder_layers,
+            encoder_heads=encoder_heads,
+            dropout=dropout,
+            activation=activation,
+            title_sequence_size=title_sequence_size,
+            content_sequence_size=content_sequence_size,
+            embedding_flag=embedding_flag,
+            title_embedding_matrix=title_embedding_matrix,
+            content_embedding_matrix=content_embedding_matrix,
+            hidden_units_1=hidden_units_1,
+            hidden_units_2=hidden_units_2,
+            hidden_units_3=hidden_units_3,
+            information_vector_dimension=information_vector_dimension,
+            device=device,
+        ).to(device)
+
+    else:
+
+        print("Using custom embeddings!")
+        title_vocab_size = len(title_word_dict)
+        content_vocab_size = len(content_word_dict)
+        model = FakeNewsTransformer(
+            title_vocab_size=title_vocab_size,
+            content_vocab_size=content_vocab_size,
+            encoder_dim=encoder_dim,
+            encoder_ffunits=encoder_ffunits,
+            encoder_layers=encoder_layers,
+            encoder_heads=encoder_heads,
+            dropout=dropout,
+            activation=activation,
+            title_sequence_size=title_sequence_size,
+            content_sequence_size=content_sequence_size,
+            embedding_flag=embedding_flag,
+            title_embedding_matrix=None,
+            content_embedding_matrix=None,
+            hidden_units_1=hidden_units_1,
+            hidden_units_2=hidden_units_2,
+            hidden_units_3=hidden_units_3,
+            information_vector_dimension=information_vector_dimension,
+            device=device,
+        ).to(device)
 
     model, criterion, optimizer = prepare_model_for_training(
         model=model,
