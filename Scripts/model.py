@@ -51,6 +51,7 @@ class FakeNewsTransformer(Module):
         embedding_flag,
         title_embedding_matrix,
         content_embedding_matrix,
+        conv_output_units,
         hidden_units_1,
         hidden_units_2,
         hidden_units_3,
@@ -72,6 +73,7 @@ class FakeNewsTransformer(Module):
         self.embedding_flag = embedding_flag
         self.title_embedding_matrix = title_embedding_matrix
         self.content_embedding_matrix = content_embedding_matrix
+        self.conv_output_units = conv_output_units
         self.hidden_units_1 = hidden_units_1
         self.hidden_units_2 = hidden_units_2
         self.hidden_units_3 = hidden_units_3
@@ -160,7 +162,10 @@ class FakeNewsTransformer(Module):
             BatchNorm1d(num_features=self.content_sequence_size * 4),
             GELU(),
             Flatten(),
-            Linear(self.content_sequence_size * 61 * 4, self.hidden_units_1),
+            Linear(
+                self.content_sequence_size * self.conv_output_units * 4,
+                self.hidden_units_1,
+            ),
             GELU(),
             Linear(self.hidden_units_1, self.hidden_units_2),
             GELU(),
