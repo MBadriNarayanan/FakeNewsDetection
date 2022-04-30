@@ -81,7 +81,7 @@ def create_word_dict(
     return data_dict
 
 
-def create_embedding_matrix(word_dict, embed_dim, embed_index):
+def create_embedding_matrix(word_dict, embed_dim, embed_index, matrix_path):
 
     max_words = len(word_dict)
     embedding_matrix = np.zeros((max_words, embed_dim))
@@ -90,6 +90,7 @@ def create_embedding_matrix(word_dict, embed_dim, embed_index):
             embed_vector = embed_index.get(word)
         if embed_vector is not None:
             embedding_matrix[idx] = embed_vector
+    save_pickle_file(data=embedding_matrix, file_path=matrix_path)
     return embedding_matrix
 
 
