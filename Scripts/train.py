@@ -50,6 +50,9 @@ def main():
     activation = config["model"]["activationFunction"]
     title_sequence_size = config["model"]["titleSequenceSize"]
     content_sequence_size = config["model"]["contentSequenceSize"]
+    embedding_flag = config["model"]["embeddingFlag"]
+    title_embedding_matrix = config["model"]["titleEmbeddingMatrixPath"]
+    content_embedding_matrix = config["model"]["contentEmbeddingMatrixPath"]
     hidden_units_1 = config["model"]["hiddenUnits1"]
     hidden_units_2 = config["model"]["hiddenUnits2"]
     hidden_units_3 = config["model"]["hiddenUnits3"]
@@ -131,6 +134,9 @@ def main():
         activation=activation,
         title_sequence_size=title_sequence_size,
         content_sequence_size=content_sequence_size,
+        embedding_flag=embedding_flag,
+        title_embedding_matrix=title_embedding_matrix,
+        content_embedding_matrix=content_embedding_matrix,
         hidden_units_1=hidden_units_1,
         hidden_units_2=hidden_units_2,
         hidden_units_3=hidden_units_3,
