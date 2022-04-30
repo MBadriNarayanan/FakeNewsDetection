@@ -1,7 +1,6 @@
 {
     "csv":{
         "csvPath": "Path of the dataframe -> string",
-        "sampleSize": "Percentage of dataframe to be sampled -> float",
         "preprocessedCSVPath": "Path to save preprocessed dataframe -> string",
         "valSize": "Validation dataframe Size -> float",
         "testSize": "Test dataframe Size -> float",
