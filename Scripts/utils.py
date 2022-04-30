@@ -104,10 +104,13 @@ def get_embedding_matrix(
 ):
 
     try:
+
         title_embedding_matrix = load_pickle_file(title_embedding_matrix_path)
         content_embedding_matrix = load_pickle_file(content_embedding_matrix_path)
         print("Loaded title and content embedding matrices from memory!")
+
     except:
+        
         embed_index = dict()
         vector_file = open(vector_path, encoding="utf8")
         for line in vector_file:
@@ -135,6 +138,7 @@ def get_embedding_matrix(
 
 
 def get_model_parameters(model):
+
     model_parameters = filter(lambda p: p.requires_grad, model.parameters())
     params = sum([np.prod(p.size()) for p in model_parameters])
     print("Parameters: ", params)
