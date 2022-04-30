@@ -96,7 +96,7 @@ def create_embedding_matrix(word_dict, embed_dim, embed_index):
 def get_embedding_matrix(
     title_embedding_matrix_path,
     content_embedding_matrix_path,
-    vector_file_path,
+    vector_path,
     title_word_dict,
     content_word_dict,
     embed_dim,
@@ -108,7 +108,7 @@ def get_embedding_matrix(
         print("Loaded title and content embedding matrices from memory!")
     except:
         embed_index = dict()
-        vector_file = open(vector_file_path, encoding="utf8")
+        vector_file = open(vector_path, encoding="utf8")
         for line in vector_file:
             values = line.split()
             word = values[0]
