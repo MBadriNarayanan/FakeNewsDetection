@@ -6,6 +6,7 @@ from torch.nn import (
     Dropout,
     Embedding,
     Flatten,
+    GELU,
     Linear,
     Module,
     Sequential,
@@ -47,6 +48,9 @@ class FakeNewsTransformer(Module):
         activation,
         title_sequence_size,
         content_sequence_size,
+        embedding_flag,
+        title_embedding_matrix,
+        content_embedding_matrix,
         hidden_units_1,
         hidden_units_2,
         hidden_units_3,
@@ -65,6 +69,9 @@ class FakeNewsTransformer(Module):
         self.activation = activation
         self.title_sequence_size = title_sequence_size
         self.content_sequence_size = content_sequence_size
+        self.embedding_flag = embedding_flag
+        self.title_embedding_matrix = title_embedding_matrix
+        self.content_embedding_matrix = content_embedding_matrix
         self.hidden_units_1 = hidden_units_1
         self.hidden_units_2 = hidden_units_2
         self.hidden_units_3 = hidden_units_3
@@ -72,8 +79,19 @@ class FakeNewsTransformer(Module):
         self.device = device
         self.number_of_classes = 3
 
-        self.TitleEmbedding = Embedding(self.title_vocab_size, self.encoder_dim)
-        self.ContentEmbedding = Embedding(self.content_vocab_size, self.encoder_dim)
+        if self.embedding_flag:
+            print("Using pretrained glove embeddings!")
+            self.TitleEmbedding = Embedding.from_pretrained(
+                torch.FloatTensor(self.title_embedding_matrix), freeze=False
+            )
+            self.ContentEmbedding = Embedding.from_pretrained(
+                torch.FloatTensor(self.content_embedding_matrix), freeze=False
+            )
+
+        else:
+            print("Using custome embeddings!")
+            self.TitleEmbedding = Embedding(self.title_vocab_size, self.encoder_dim)
+            self.ContentEmbedding = Embedding(self.content_vocab_size, self.encoder_dim)
 
         self.PositionEncoding = PositionalEncoding(
             self.encoder_dim, dropout=self.dropout
@@ -104,24 +122,52 @@ class FakeNewsTransformer(Module):
         ).to(self.device)
 
         self.TitleReductionLayer = Sequential(
-            Conv1d(in_channels=20, out_channels=80, kernel_size=2, stride=2),
+            Conv1d(
+                in_channels=self.title_sequence_size,
+                out_channels=self.content_sequence_size,
+                kernel_size=2,
+                stride=2,
+            ),
+            GELU(),
         )
 
         self.ContentReductionLayer = Sequential(
-            Linear(300, 150),
+            Linear(self.encoder_dim, int(self.information_vector_dimension / 2)),
+            GELU(),
         )
 
         self.Decoder = Sequential(
-            Conv1d(in_channels=80, out_channels=160, kernel_size=3, stride=2),
-            BatchNorm1d(num_features=160),
-            Conv1d(in_channels=160, out_channels=240, kernel_size=4, stride=2),
-            BatchNorm1d(num_features=240),
-            Conv1d(in_channels=240, out_channels=360, kernel_size=5, stride=2),
-            BatchNorm1d(num_features=360),
+            Conv1d(
+                in_channels=self.content_sequence_size,
+                out_channels=self.content_sequence_size * 2,
+                kernel_size=3,
+                stride=2,
+            ),
+            BatchNorm1d(num_features=self.content_sequence_size * 2),
+            GELU(),
+            Conv1d(
+                in_channels=self.content_sequence_size * 2,
+                out_channels=self.content_sequence_size * 3,
+                kernel_size=4,
+                stride=2,
+            ),
+            BatchNorm1d(num_features=self.content_sequence_size * 3),
+            GELU(),
+            Conv1d(
+                in_channels=self.content_sequence_size * 3,
+                out_channels=self.content_sequence_size * 4,
+                kernel_size=5,
+                stride=2,
+            ),
+            BatchNorm1d(num_features=self.content_sequence_size * 4),
+            GELU(),
             Flatten(),
-            Linear(12600, self.hidden_units_1),
+            Linear(self.content_sequence_size * 61 * 4, self.hidden_units_1),
+            GELU(),
             Linear(self.hidden_units_1, self.hidden_units_2),
+            GELU(),
             Linear(self.hidden_units_2, self.hidden_units_3),
+            GELU(),
             Linear(self.hidden_units_3, self.number_of_classes),
         )
 
