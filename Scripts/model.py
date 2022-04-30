@@ -80,7 +80,6 @@ class FakeNewsTransformer(Module):
         self.number_of_classes = 3
 
         if self.embedding_flag:
-            print("Using pretrained glove embeddings!")
             self.TitleEmbedding = Embedding.from_pretrained(
                 torch.FloatTensor(self.title_embedding_matrix), freeze=False
             )
@@ -89,7 +88,6 @@ class FakeNewsTransformer(Module):
             )
 
         else:
-            print("Using custome embeddings!")
             self.TitleEmbedding = Embedding(self.title_vocab_size, self.encoder_dim)
             self.ContentEmbedding = Embedding(self.content_vocab_size, self.encoder_dim)
 
