@@ -192,7 +192,9 @@ def train_model(
     checkpoint_dir,
 ):
     with open(logs_path, "at") as logs_file:
-        logs_file.write("Logs for the checkpoint stored at:", checkpoint_dir, "/\n")
+        logs_file.write(
+            "Logs for the checkpoint stored at: {}/\n".format(checkpoint_dir)
+        )
 
     for epoch in tqdm(range(start_epoch, end_epoch + 1)):
         train_loss = 0.0
