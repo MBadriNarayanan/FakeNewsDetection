@@ -9,6 +9,7 @@ from sklearn.metrics import accuracy_score, classification_report
 from tensorflow.keras.preprocessing.text import Tokenizer
 from torch.nn import CrossEntropyLoss
 from torch.nn.functional import log_softmax
+from torch.nn.init import xavier_uniform_
 from torch.optim import Adam
 
 
@@ -80,6 +81,58 @@ def create_word_dict(
     return data_dict
 
 
+def create_embedding_matrix(word_dict, embed_dim, embed_index):
+
+    max_words = len(word_dict)
+    embedding_matrix = np.zeros((max_words, embed_dim))
+    for idx, word in word_dict.items():
+        if idx < max_words:
+            embed_vector = embed_index.get(word)
+        if embed_vector is not None:
+            embedding_matrix[idx] = embed_vector
+    return embedding_matrix
+
+
+def get_embedding_matrix(
+    title_embedding_matrix_path,
+    content_embedding_matrix_path,
+    vector_file_path,
+    title_word_dict,
+    content_word_dict,
+    embed_dim,
+):
+
+    try:
+        title_embedding_matrix = load_pickle_file(title_embedding_matrix_path)
+        content_embedding_matrix = load_pickle_file(content_embedding_matrix_path)
+        print("Loaded title and content embedding matrices from memory!")
+    except:
+        embed_index = dict()
+        vector_file = open(vector_file_path, encoding="utf8")
+        for line in vector_file:
+            values = line.split()
+            word = values[0]
+            coefs = np.asarray(values[1:], dtype="float32")
+            embed_index[word] = coefs
+        vector_file.close()
+
+        title_embedding_matrix = create_embedding_matrix(
+            word_dict=title_word_dict,
+            embed_dim=embed_dim,
+            embed_index=embed_index,
+            matrix_path=title_embedding_matrix_path,
+        )
+        content_embedding_matrix = create_embedding_matrix(
+            word_dict=content_word_dict,
+            embed_dim=embed_dim,
+            embed_index=embed_index,
+            matrix_path=content_embedding_matrix_path,
+        )
+        print("Created title and content embedding matrices")
+
+    return title_embedding_matrix, content_embedding_matrix
+
+
 def get_model_parameters(model):
     model_parameters = filter(lambda p: p.requires_grad, model.parameters())
     params = sum([np.prod(p.size()) for p in model_parameters])
@@ -101,6 +154,9 @@ def prepare_model_for_training(
         optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
     else:
         print("Model is being used for training")
+        for p in model.parameters():
+            if p.dim() > 1:
+                xavier_uniform_(p)
 
     get_model_parameters(model=model)
 
@@ -111,7 +167,6 @@ def prepare_model_for_evaluation(model, checkpoint_path):
 
     checkpoint = torch.load(checkpoint_path)
     model.load_state_dict(checkpoint["model_state_dict"])
-    model.eval()
 
     return model
 
@@ -130,7 +185,7 @@ def train_model(
 ):
     for epoch in tqdm(range(start_epoch, end_epoch + 1)):
         train_loss = 0.0
-        train_accuracy = []
+        train_accuracy = 0.0
         model.train()
 
         for _, gen_values in enumerate(train_gen):
@@ -152,47 +207,51 @@ def train_model(
             y_pred = y_pred.detach().cpu().tolist()
             target = target.detach().cpu().tolist()
 
-            train_loss += batch_loss
             batch_accuracy = accuracy_score(target, y_pred)
-            train_accuracy.append(batch_accuracy)
+            train_loss += batch_loss
+            train_accuracy += batch_accuracy
 
             torch.cuda.empty_cache()
 
             del title, content, target
-            del y_hat, y_pred
+            del y_hat, loss, y_pred
             del batch_loss, batch_accuracy
 
+        train_loss = train_loss / len(train_gen)
         train_loss = round(train_loss, 3)
-        train_accuracy = sum(train_accuracy) / len(train_accuracy)
+        train_accuracy = train_accuracy / len(train_gen)
         train_accuracy = round(train_accuracy, 3)
 
+        val_loss = 0.0
         ground_truth = []
         prediction = []
-        val_loss = 0.0
-        model.eval()
 
-        for _, gen_values in enumerate(val_gen):
+        with torch.no_grad():
+            model.eval()
 
-            title = gen_values[0].to(device)
-            content = gen_values[1].to(device)
-            target = gen_values[2].to(device)
-            target = target.reshape(target.shape[0])
+            for _, gen_values in enumerate(val_gen):
 
-            y_hat = model(title, content)
-            loss = criterion(y_hat, target)
-            val_loss += loss.item()
+                title = gen_values[0].to(device)
+                content = gen_values[1].to(device)
+                target = gen_values[2].to(device)
+                target = target.reshape(target.shape[0])
 
-            y_pred = log_softmax(y_hat, dim=1)
-            y_pred = torch.argmax(y_pred, dim=1)
-            y_pred = y_pred.detach().cpu().tolist()[0]
-            target = target.detach().cpu().tolist()[0]
+                y_hat = model(title, content)
+                loss = criterion(y_hat, target)
+                val_loss += loss.item()
 
-            ground_truth.append(target)
-            prediction.append(y_pred)
+                y_pred = log_softmax(y_hat, dim=1)
+                y_pred = torch.argmax(y_pred, dim=1)
+                y_pred = y_pred.detach().cpu().tolist()[0]
+                target = target.detach().cpu().tolist()[0]
 
-            del title, content, target
-            del y_hat, y_pred
+                ground_truth.append(target)
+                prediction.append(y_pred)
 
+                del title, content, target
+                del y_hat, loss, y_pred
+
+        val_loss = val_loss / len(val_gen)
         val_loss = round(val_loss, 3)
         val_accuracy = accuracy_score(ground_truth, prediction)
         val_accuracy = round(val_accuracy, 3)
@@ -215,6 +274,7 @@ def train_model(
         )
 
         del train_loss, train_accuracy
+        del ground_truth, prediction
         del val_loss, val_accuracy
 
 
@@ -229,25 +289,27 @@ def evaluate_model(
     ground_truth = []
     prediction = []
 
-    for _, gen_values in tqdm(enumerate(test_gen)):
+    with torch.no_grad():
+        model.eval()
 
-        title = gen_values[0].to(device)
-        content = gen_values[1].to(device)
-        target = gen_values[2].to(device)
-        target = target.reshape(target.shape[0])
+        for _, gen_values in tqdm(enumerate(test_gen)):
 
-        y_hat = model(title, content)
+            title = gen_values[0].to(device)
+            content = gen_values[1].to(device)
+            target = gen_values[2].to(device)
+            target = target.reshape(target.shape[0])
 
-        y_pred = log_softmax(y_hat, dim=1)
-        y_pred = torch.argmax(y_pred, dim=1)
-        y_pred = y_pred.detach().cpu().tolist()[0]
-        target = target.detach().cpu().tolist()[0]
+            y_hat = model(title, content)
+            y_pred = log_softmax(y_hat, dim=1)
+            y_pred = torch.argmax(y_pred, dim=1)
+            y_pred = y_pred.detach().cpu().tolist()[0]
+            target = target.detach().cpu().tolist()[0]
 
-        ground_truth.append(target)
-        prediction.append(y_pred)
+            ground_truth.append(target)
+            prediction.append(y_pred)
 
-        del title, content, target
-        del y_hat, y_pred
+            del title, content, target
+            del y_hat, y_pred
 
     accuracy = accuracy_score(ground_truth, prediction)
     accuracy = round(accuracy, 3)
@@ -266,5 +328,6 @@ def evaluate_model(
     report_file.write("{}\n".format(report))
     report_file.write("-----------------------------\n")
 
+    del ground_truth, prediction
     del accuracy, report
     report_file.close()
