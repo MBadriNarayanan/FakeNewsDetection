@@ -54,6 +54,7 @@ def main():
     vector_path = config["model"]["vectorPath"]
     title_embedding_matrix_path = config["model"]["titleEmbeddingMatrixPath"]
     content_embedding_matrix_path = config["model"]["contentEmbeddingMatrixPath"]
+    conv_output_units = config["model"]["convOutputUnits"]
     hidden_units_1 = config["model"]["hiddenUnits1"]
     hidden_units_2 = config["model"]["hiddenUnits2"]
     hidden_units_3 = config["model"]["hiddenUnits3"]
@@ -147,6 +148,7 @@ def main():
             embedding_flag=embedding_flag,
             title_embedding_matrix=title_embedding_matrix,
             content_embedding_matrix=content_embedding_matrix,
+            conv_output_units=conv_output_units,
             hidden_units_1=hidden_units_1,
             hidden_units_2=hidden_units_2,
             hidden_units_3=hidden_units_3,
@@ -174,6 +176,7 @@ def main():
             embedding_flag=embedding_flag,
             title_embedding_matrix=None,
             content_embedding_matrix=None,
+            conv_output_units=conv_output_units,
             hidden_units_1=hidden_units_1,
             hidden_units_2=hidden_units_2,
             hidden_units_3=hidden_units_3,
