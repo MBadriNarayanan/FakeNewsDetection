@@ -159,7 +159,7 @@ def prepare_model_for_training(
         model.load_state_dict(checkpoint["model_state_dict"])
         optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
     else:
-        
+
         print("Prepared model for training!")
         for p in model.parameters():
             if p.dim() > 1:
@@ -172,6 +172,7 @@ def prepare_model_for_training(
 
 def prepare_model_for_evaluation(model, checkpoint_path):
 
+    print("Loaded checkpoint:", checkpoint_path, "for evaluation!")
     checkpoint = torch.load(checkpoint_path)
     model.load_state_dict(checkpoint["model_state_dict"])
 
