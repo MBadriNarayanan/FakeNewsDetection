@@ -191,6 +191,9 @@ def train_model(
     logs_path,
     checkpoint_dir,
 ):
+    with open(logs_path, "at") as logs_file:
+        logs_file.write("Logs for the checkpoint stored at:", checkpoint_dir, "/\n")
+
     for epoch in tqdm(range(start_epoch, end_epoch + 1)):
         train_loss = 0.0
         train_accuracy = 0.0
@@ -330,7 +333,7 @@ def evaluate_model(
     )
 
     report_file = open(report_path, "w")
-    report_file.write("Metrics for the weights stored in: {}\n".format(checkpoint_path))
+    report_file.write("Metrics for the checkpoint: {}\n".format(checkpoint_path))
     report_file.write("Accuracy: {}\n".format(accuracy))
     report_file.write("Classification Report\n")
     report_file.write("{}\n".format(report))
