@@ -107,6 +107,7 @@ def main():
             embed_dim=embed_dim,
         )
         print("Using pretrained glove embeddings!")
+
         model = FakeNewsTransformer(
             title_vocab_size=None,
             content_vocab_size=None,
@@ -133,6 +134,7 @@ def main():
         print("Using custom embeddings!")
         title_vocab_size = len(title_word_dict)
         content_vocab_size = len(content_word_dict)
+
         model = FakeNewsTransformer(
             title_vocab_size=title_vocab_size,
             content_vocab_size=content_vocab_size,
