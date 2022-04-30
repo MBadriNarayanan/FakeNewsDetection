@@ -129,7 +129,7 @@ def get_embedding_matrix(
             embed_index=embed_index,
             matrix_path=content_embedding_matrix_path,
         )
-        print("Created title and content embedding matrices")
+        print("Created title and content embedding matrices!")
 
     return title_embedding_matrix, content_embedding_matrix
 
