@@ -24,6 +24,7 @@
         "titleSequenceSize": "Max sequence length for title -> int",
         "contentSequenceSize": "Max sequence length for content -> int",
         "embeddingFlag": "Boolean value to determine the embedding layer type -> bool",
+        "vectorPath": "Pretrained vector text path -> string",
         "titleEmbeddingMatrixPath": "Embedding matrix path for title if embeddingFlag is True -> string",
         "contentEmbeddingMatrixPath": "Embedding matrix path for content if embeddingFlag is True -> string",
         "hiddenUnits1" : "First hidden unit in the decoder layer -> int",
