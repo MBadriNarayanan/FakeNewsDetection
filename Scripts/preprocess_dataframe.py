@@ -100,7 +100,6 @@ def preprocess_data(
 
 def preprocess_dataframe(
     csv_path,
-    sample_size,
     preprocessed_csv_path,
     train_csv_path,
     val_csv_path,
@@ -123,12 +122,9 @@ def preprocess_dataframe(
     df = pd.read_csv(csv_path)
     df = df.dropna(subset=["title", "content"])
     df = df.drop_duplicates(subset=["title", "content"])
-    _, sample_df = train_test_split(
-        df, test_size=sample_size, stratify=df["label"], random_state=random_state
-    )
-    sample_df = sample_df.reset_index(drop=True)
+    df = df.reset_index(drop=True)
 
-    sample_df["preprocessed_data"] = sample_df.progress_apply(
+    df["preprocessed_data"] = df.progress_apply(
         lambda row: preprocess_data(
             title=row["title"],
             content=row["content"],
@@ -146,14 +142,10 @@ def preprocess_dataframe(
         axis=1,
     )
 
-    sample_df["preprocessed_title"] = sample_df["preprocessed_data"].apply(
-        lambda row: row[0]
-    )
-    sample_df["preprocessed_content"] = sample_df["preprocessed_data"].apply(
-        lambda row: row[1]
-    )
+    df["preprocessed_title"] = df["preprocessed_data"].apply(lambda row: row[0])
+    df["preprocessed_content"] = df["preprocessed_data"].apply(lambda row: row[1])
 
-    sample_df = sample_df[
+    df = df[
         [
             "id",
             "collection_utc",
@@ -171,12 +163,12 @@ def preprocess_dataframe(
         ]
     ]
 
-    sample_df.to_csv(preprocessed_csv_path, index=False)
+    df.to_csv(preprocessed_csv_path, index=False)
 
     train_df, test_df = train_test_split(
-        sample_df,
+        df,
         test_size=test_size,
-        stratify=sample_df["label"],
+        stratify=df["label"],
         random_state=random_state,
     )
     train_df, val_df = train_test_split(
@@ -205,7 +197,6 @@ def main():
         config = json.load(fjson)
 
     csv_path = config["csv"]["csvPath"]
-    sample_size = config["csv"]["sampleSize"]
     preprocessed_csv_path = config["csv"]["preprocessedCSVPath"]
     val_size = config["csv"]["valSize"]
     test_size = config["csv"]["testSize"]
@@ -231,7 +222,6 @@ def main():
 
     preprocess_dataframe(
         csv_path=csv_path,
-        sample_size=sample_size,
         preprocessed_csv_path=preprocessed_csv_path,
         train_csv_path=preprocessed_train_csv_path,
         val_csv_path=preprocessed_val_csv_path,
