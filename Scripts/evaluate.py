@@ -129,7 +129,7 @@ def main():
             hidden_units_3=hidden_units_3,
             information_vector_dimension=information_vector_dimension,
             device=device,
-        ).to(device)
+        )
 
     else:
 
@@ -157,7 +157,7 @@ def main():
             hidden_units_3=hidden_units_3,
             information_vector_dimension=information_vector_dimension,
             device=device,
-        ).to(device)
+        )
 
     model = prepare_model_for_evaluation(model=model, checkpoint_path=checkpoint_path)
 
