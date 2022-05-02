@@ -85,6 +85,7 @@ def main():
         sequence_length=sequence_length,
         padding=padding,
     )
+    
     X_val, y_val = generate_sequence(
         tokenizer=tokenizer,
         df=val_df,
