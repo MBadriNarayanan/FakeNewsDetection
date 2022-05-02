@@ -1,0 +1,42 @@
+{
+    "csv":{
+        "trainPath": "Train dataframe path -> string",
+        "valPath": "Val dataframe path -> string"
+    },
+    "dataset":{
+        "titleFlag": "Boolean value to determine the input text -> bool",
+        "dictPath": "Word dict path -> string",
+        "tokenizerPath": "Tokenizer path -> string",
+        "sequenceLength": "Maximum sequence length -> int",
+        "oovToken": "OOV token for the data -> string",
+        "paddingToken": "Padding token for the data -> string",
+        "paddingMode": "Mode of padding (pre or post) -> string"
+
+    },
+    "vector":{
+        "embeddingMatrixPath": "Embedding matrix path -> string",
+        "vectorPath": "Pretrained vector text path -> string"
+
+    },
+    "model":{
+        "embeddingFlag": "Boolean value to determine the embedding layer type -> bool",
+        "embeddingDimension": "Embedding dimension -> int",
+        "modelFlag": "Type of recurrent model (rnn or lstm) -> string",
+        "biDirectionalFlag": "Boolean value to determine bidirectional units -> bool",
+        "dropoutValue": "Dropout value for the model -> float",
+        "recurrentUnits": "Units of the recurrent layer -> int",
+        "hiddenUnits": "Hidden units in the classifier -> int"
+
+    },
+    "train":{
+        "checkpointMonitor": "Callback monitor -> string",
+        "paitenceValue": "Paitence value for the callback -> int",
+        "checkpointMode": "Callback mode -> string",
+        "checkpointPath": "Path to save checkpoints -> string",
+        "lossFunction": "Loss function for model training -> string",
+        "optimizerFunction": "Optimizer for model training -> string",
+        "numberOfEpochs": "Number of epochs for model training -> int",
+        "batchSize": "Training batch size -> int",
+        "lossImagePath": "Image to save the training loss -> string"
+    }
+}
