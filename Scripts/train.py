@@ -154,7 +154,7 @@ def main():
             hidden_units_3=hidden_units_3,
             information_vector_dimension=information_vector_dimension,
             device=device,
-        ).to(device)
+        )
 
     else:
 
@@ -182,7 +182,7 @@ def main():
             hidden_units_3=hidden_units_3,
             information_vector_dimension=information_vector_dimension,
             device=device,
-        ).to(device)
+        )
 
     model, criterion, optimizer = prepare_model_for_training(
         model=model,
