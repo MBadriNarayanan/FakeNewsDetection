@@ -2,6 +2,7 @@
     "csv":{
         "trainPath": "Train dataframe path -> string",
         "valPath": "Val dataframe path -> string"
+        
     },
     "dataset":{
         "titleDictPath": "Title word dict path -> string",
@@ -12,7 +13,7 @@
         "paddingToken": "Padding token for the data -> string",
         "maxLength": "Maximum sequence length -> int",
         "paddingMode": "Mode of padding (pre or post) -> string",
-        "embeddingDimension": "Embedding dimension of the fasttext vectors -> int",
+        "embeddingDimension": "Embedding dimension -> int",
         "batchSize": "Training batch size -> int",
         "shuffleFlag": "Shuffle flag for the dataset loader -> bool",
         "numWorkers": "Number of workers for the dataloader -> int"
