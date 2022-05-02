@@ -3,8 +3,6 @@ import torch
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from torch.utils.data import Dataset
 
-import numpy as np
-
 
 class FakeNewsDataset(Dataset):
     def __init__(
