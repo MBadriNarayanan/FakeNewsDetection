@@ -1,6 +1,7 @@
 {
     "csv":{
         "testPath": "Test dataframe path -> string"
+        
     },
     "dataset":{
         "titleDictPath": "Title word dict path -> string",
@@ -10,7 +11,7 @@
         "oovToken": "OOV token for the data -> string",
         "paddingToken": "Padding token for the data -> string",
         "paddingMode": "Mode of padding (pre or post) -> string",
-        "embeddingDimension": "Embedding dimension of the fasttext vectors -> int",
+        "embeddingDimension": "Embedding dimension -> int",
         "shuffleFlag": "Shuffle flag for the dataset loader -> bool",
         "numWorkers": "Number of workers for the dataloader -> int"
 
@@ -37,5 +38,6 @@
     "evaluate":{
         "checkpointPath": "Checkpoint path for evaluating the test set -> string",
         "reportPath": "Metrics path to save the model metrics -> string"
+        
     }
 }
