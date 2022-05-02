@@ -5,7 +5,7 @@ import torch.cuda
 from tqdm import tqdm
 import numpy as np
 
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 from tensorflow.keras.preprocessing.text import Tokenizer
 from torch.nn import CrossEntropyLoss
 from torch.nn.functional import log_softmax
@@ -149,7 +149,12 @@ def prepare_model_for_training(
     model, learning_rate, continue_flag, continue_checkpoint_path
 ):
 
-    criterion = CrossEntropyLoss().cuda()
+    criterion = CrossEntropyLoss()
+
+    if torch.cuda.is_available():
+        criterion = criterion.cuda()
+        model = model.cuda()
+
     optimizer = Adam(model.parameters(), lr=learning_rate)
 
     if continue_flag:
@@ -172,9 +177,13 @@ def prepare_model_for_training(
 
 def prepare_model_for_evaluation(model, checkpoint_path):
 
+    if torch.cuda.is_available():
+        model = model.cuda()
+
     print("Loaded checkpoint:", checkpoint_path, "for evaluation!")
     checkpoint = torch.load(checkpoint_path)
     model.load_state_dict(checkpoint["model_state_dict"])
+    print("--------------------------------------------")
 
     return model
 
@@ -334,13 +343,17 @@ def evaluate_model(
         zero_division=0,
     )
 
+    matrix = confusion_matrix(ground_truth, prediction)
+
     report_file = open(report_path, "w")
     report_file.write("Metrics for the checkpoint: {}\n".format(checkpoint_path))
     report_file.write("Accuracy: {}\n".format(accuracy))
     report_file.write("Classification Report\n")
     report_file.write("{}\n".format(report))
+    report_file.write("Confusion Matrix\n")
+    report_file.write("{}\n".format(matrix))
     report_file.write("-----------------------------\n")
+    report_file.close()
 
     del ground_truth, prediction
     del accuracy, report
-    report_file.close()
