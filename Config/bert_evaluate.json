@@ -1,0 +1,23 @@
+{
+    "csv":{
+        "testPath": "Test dataframe path -> string"
+        
+    },
+    "dataset":{
+        "titleFlag": "Boolean value to determine the input text -> bool",
+        "sequenceLength": "Maximum sequence length -> int",
+        "shuffleFlag": "Shuffle flag for the dataset loader -> bool",
+        "numWorkers": "Number of workers for the dataloader -> int"
+    },
+    "model":{
+        "modelName": "BERT model name -> string",
+        "hiddenUnits" : "Hidden units in the classifier -> int",
+        "dropoutValue": "Dropout value for the model -> float"
+    
+    },
+    "evaluate":{
+        "checkpointPath": "Checkpoint path for evaluating the test set -> string",
+        "reportPath": "Metrics path to save the model metrics -> string"
+        
+    }
+}
