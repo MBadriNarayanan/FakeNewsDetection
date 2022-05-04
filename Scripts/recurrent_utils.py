@@ -160,7 +160,7 @@ def evaluate_model(model, checkpoint_path, X_test, y_test, threshold, report_pat
     report = classification_report(
         y_test,
         y_pred,
-        target_names=["Reliable", "Mixed", "Unreliable"],
+        target_names=["Reliable", "Unreliable", "Mixed"],
         digits=3,
         zero_division=0,
     )
