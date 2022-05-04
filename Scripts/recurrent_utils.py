@@ -53,6 +53,7 @@ def create_embedding_matrix(word_dict, embed_dim, embed_index, matrix_path):
         if embed_vector is not None:
             embedding_matrix[idx] = embed_vector
     save_pickle_file(data=embedding_matrix, file_path=matrix_path)
+
     return embedding_matrix
 
 
