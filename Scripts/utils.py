@@ -339,7 +339,7 @@ def evaluate_model(
         ground_truth,
         prediction,
         digits=3,
-        target_names=["Reliable", "Mixed", "Unreliable"],
+        target_names=["Reliable", "Unreliable", "Mixed"],
         zero_division=0,
     )
 
