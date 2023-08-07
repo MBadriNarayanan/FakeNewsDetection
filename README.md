@@ -1,8 +1,8 @@
 # Fake News Detection using a Deep Learning Transformer Based Encoder-Decoder architecture
 
-This repository contains code for the paper "Fake News Detection using a Deep Learning Transformer Based Encoder-Decoder architecture", submitted for review at IOS Press Journal of Intelligent & Fuzzy Systems, 2022.
+This repository contains code for the paper "Fake News Detection using a Deep Learning Transformer Based Encoder-Decoder architecture", accepted for publication in the Science Citation Index Expanded journal: IOS Press - Journal of Intelligent & Fuzzy Systems, 2023.
 
-We introduce a novel architecture called FakeNews Transformer to detetermine the integrity of a news source based on its title and content.
+We introduce a novel architecture called FakeNews Transformer to determine the integrity of a news source based on its title and content.
 
 Publication Link: To be updated.
 
