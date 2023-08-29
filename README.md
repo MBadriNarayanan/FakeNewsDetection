@@ -11,4 +11,4 @@ Citation:
 Narayanan, M. Badri et al. ‘Fake News Detection Using a Deep Learning Transformer Based Encoder-decoder Architecture’. 1 Jan. 2023 : 1 – 13.
 ```
 
-Authors: Authors: [M Badri Narayanan](https://www.linkedin.com/in/mbadrinarayanan), [Arun Kumar Ramesh](https://www.linkedin.com/in/ak152k), [Gayathri K S](https://scholar.google.co.in/citations?user=R1odoAwAAAAJ&hl=en&oi=ao), [Shahina A](https://scholar.google.co.in/citations?user=TrfKTFIAAAAJ&hl=en)
+Authors: [M Badri Narayanan](https://www.linkedin.com/in/mbadrinarayanan), [Arun Kumar Ramesh](https://www.linkedin.com/in/ak152k), [Gayathri K S](https://scholar.google.co.in/citations?user=R1odoAwAAAAJ&hl=en&oi=ao), [Shahina A](https://scholar.google.co.in/citations?user=TrfKTFIAAAAJ&hl=en)
