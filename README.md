@@ -8,7 +8,15 @@ Publication Link: [https://content.iospress.com/articles/journal-of-intelligent-
 
 Citation:
 ```
-Narayanan, M. Badri et al. ‘Fake News Detection Using a Deep Learning Transformer Based Encoder-decoder Architecture’. 1 Jan. 2023 : 1 – 13.
+@article{Narayanan_2023,
+doi = {10.3233/jifs-223980},
+url = {https://doi.org/10.3233%2Fjifs-223980},
+year = 2023,	month = {aug},
+publisher = {{IOS} Press},
+pages = {1--13},
+author = {M. Badri Narayanan and Arun Kumar Ramesh and K.S. Gayathri and A. Shahina},
+title = {Fake news detection using a deep learning transformer based encoder-decoder architecture},
+journal = {Journal of Intelligent {\&}amp$\mathsemicolon$ Fuzzy Systems}}
 ```
 
 Authors: [M Badri Narayanan](https://www.linkedin.com/in/mbadrinarayanan), [Arun Kumar Ramesh](https://www.linkedin.com/in/ak152k), [Gayathri K S](https://scholar.google.co.in/citations?user=R1odoAwAAAAJ&hl=en&oi=ao), [Shahina A](https://scholar.google.co.in/citations?user=TrfKTFIAAAAJ&hl=en)
